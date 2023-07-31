@@ -35,23 +35,21 @@ def pyttsx3_debug(text,language,rate,volume,filename):
 speak = on_command("/speak",block=True, priority=5)
 @speak.handle()
 async def process(bot: Bot, event: MessageEvent):
-    try:
-        if not os.path.exists(save_path.rstrip('/')):
-            os.makedirs(save_path.rstrip('/'))
-        file_list = os.listdir(save_path)
-        speak_buffer = str(event.get_message()).strip()+"             "
-        filename = speak_buffer.strip('/speak').lstrip().replace(" ","")
-        if (filename+'.mp3') not in file_list:
-            await speak.send("正在合成中（如若文本较长则生成时间较长，请耐心等待）")
-            pyttsx3_debug(text=speak_buffer,language=0,rate=170,volume=0.9,filename=filename)
-            msg = f"[CQ:tts,text={filename}]"
-            await speak.finish(Message(msg))
-        else:
-            msg = f"[CQ:tts,text={filename}]"
-            await speak.finish(Message(msg))
-        
-    except Exception as e:
-        await speak.finish(f"生成错误：{e}")
+
+    if not os.path.exists(save_path.rstrip('/')):
+        os.makedirs(save_path.rstrip('/'))
+    file_list = os.listdir(save_path)
+    speak_buffer = str(event.get_message()).strip()+"             "
+    filename = speak_buffer.strip('/speak').lstrip().replace(" ","")
+    if (filename+'.mp3') not in file_list:
+        await speak.send("正在合成中（如若文本较长则生成时间较长，请耐心等待）")
+        pyttsx3_debug(text=speak_buffer,language=0,rate=170,volume=0.9,filename=filename)
+        msg = f"[CQ:tts,text={filename}]"
+        await speak.finish(Message(msg))
+    else:
+        msg = f"[CQ:tts,text={filename}]"
+        await speak.finish(Message(msg))
+
     
     
 
