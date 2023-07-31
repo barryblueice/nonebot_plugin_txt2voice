@@ -1,0 +1,2 @@
+# nonebot_plugin_txt2voice
+基于pyttsx3库编写的nonebot文字转语音插件
